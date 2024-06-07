@@ -21,7 +21,7 @@ pub fn is_hidden(entry: &DirEntry) -> bool {
 pub fn find_files_in_folder(path: &str) -> () {
     let walk: WalkDir = WalkDir::new(path).min_depth(1).max_depth(1);
     let entries: Vec<_> = walk.into_iter().filter_entry(|e|
-        !is_hidden(e)).collect();
+        !is_hidden(e)).collect(); // Collect all entries in a vector
 
     for (i, entry) in entries.iter().enumerate() {
         match entry {

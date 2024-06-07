@@ -37,7 +37,7 @@ pub fn flag_l(path: &str) -> () {
                 let metadata: Metadata = fs::metadata(entry.path()).unwrap();
                 let time: SystemTime = metadata.modified().unwrap();
                 let time: DateTime<Local> = time.into();
-                let day: String = time.day().to_string();
+                let day: u32 = time.day();
                 let mut month: String = time.format("%b").to_string();
                 month = translate_month(&month);
                 let formatted_time: String = time.format("%H:%M").to_string();
