@@ -6,7 +6,7 @@ use walkdir::DirEntry;
     * @param entry: &DirEntry
     * @return bool
 */
-fn is_hidden(entry: &DirEntry) -> bool {
+pub fn is_hidden(entry: &DirEntry) -> bool {
     entry.file_name()
         .to_str()
         .map(|s| s.starts_with("."))

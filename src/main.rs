@@ -1,13 +1,14 @@
 use std::env;
 mod in_folder;
 mod flag_a;
+mod flag_l;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
     let args_len = args.len();
 
     if args_len < 2 {
-        eprintln!("Usage: [-a] [-l] [-r] <path>");
+        eprintln!("Usage: [-a] [-l] [-R] <path>");
         return;
     }
     if args[1] == "-a" {
@@ -15,6 +16,14 @@ fn main() {
             flag_a::flag_a(&args[2]);
         } else {
             flag_a::flag_a(".");
+        }
+        return;
+    }
+    if args[1] == "-l" {
+        if args_len == 3 {
+            flag_l::flag_l(&args[2]);
+        } else {
+            flag_l::flag_l(".");
         }
         return;
     }
