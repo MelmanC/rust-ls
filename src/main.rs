@@ -6,6 +6,10 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let args_len = args.len();
 
+    if args_len < 2 {
+        eprintln!("Usage: [-a] [-l] [-r] <path>");
+        return;
+    }
     if args[1] == "-a" {
         if args_len == 3 {
             flag_a::flag_a(&args[2]);
