@@ -1,7 +1,8 @@
 use walkdir::WalkDir;
 use crate::in_folder::is_hidden;
-use std::{fs::{self, Metadata}, path::Display, time::SystemTime};
+use std::{fs::{self, Metadata}, os::macos::fs::MetadataExt, path::Display, time::SystemTime};
 use chrono::prelude::*;
+use file_owner::PathExt;
 
 fn translate_month(str: &str) -> String {
     match str {
@@ -41,8 +42,10 @@ pub fn flag_l(path: &str) -> () {
                 let mut month: String = time.format("%b").to_string();
                 month = translate_month(&month);
                 let formatted_time: String = time.format("%H:%M").to_string();
+                let owner = entry.path().owner().unwrap();
+                let group = entry.path().group().unwrap();
 
-                println!("{} {} {} {} {}", metadata.len(), day, month, formatted_time, path);
+                println!("{} {} {} {} {} {} {} {}", owner, group  ,metadata.st_uid(), metadata.len(), day, month, formatted_time, path);
             },
             Err(e) => eprintln!("Error => {}", e),
             // Return error message on the standard error output
