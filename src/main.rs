@@ -2,6 +2,7 @@ use std::env;
 mod in_folder;
 mod flag_a;
 mod flag_l;
+mod permissions;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
