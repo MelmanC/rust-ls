@@ -3,6 +3,8 @@ use crate::in_folder::is_hidden;
 use std::{fs::{self, Metadata}, os::macos::fs::MetadataExt, path::Display, time::SystemTime};
 use chrono::prelude::*;
 use file_owner::PathExt;
+use std::os::unix::fs::PermissionsExt;
+use crate::permissions::get_permisions;
 
 fn translate_month(str: &str) -> String {
     match str {
@@ -44,8 +46,12 @@ pub fn flag_l(path: &str) -> () {
                 let formatted_time: String = time.format("%H:%M").to_string();
                 let owner = entry.path().owner().unwrap();
                 let group = entry.path().group().unwrap();
-
-                println!("{} {} {} {} {} {} {} {}", owner, group  ,metadata.st_uid(), metadata.len(), day, month, formatted_time, path);
+                let permisions = entry.path().metadata().unwrap().permissions();
+                let mode = permisions.mode();
+                let mode = mode & 0o777;
+                let mode = format!("{:o}", mode);
+                let string_permisions = get_permisions(mode, entry.path());
+                println!("{} {} {} {} {} {} {} {}", string_permisions, owner, group, metadata.len(), day, month, formatted_time, path);
             },
             Err(e) => eprintln!("Error => {}", e),
             // Return error message on the standard error output
